@@ -11,10 +11,12 @@
 (deftest move-test
   (is (=  (:location (move-player {:location :test-room-1} test-rooms :w)) :test-room-2)))
 
+;; This is broken
 (deftest the-item-is-in
   (is (= (items-for :stone)  ["Sword"]))
   (is (= (items-for :hall) ["Clock"])))
 
+;; This is broken.
 (deftest take-item-test
   (is (= (:inventory @the-player) []))
   (do (take-an-item "Clock")
