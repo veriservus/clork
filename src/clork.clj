@@ -38,12 +38,15 @@
       (update-in world [:players player] #(merge % {:location (get routes direction)}))
       world)))
 
+(defn get-room-items [world location]
+  (let [items (get-in world [:rooms location :items])]
+    (if items items [])))
+
+;; All functions should take
+(defn add-to-inventory
+  [player item] (update-in player [:inventory] #(conj % [item]))
+  )
+
+
 (defn pick-up [world player item]
-  (let [curr-room-name (get-in world [:players player :location])
-        curr-room (get-in world [:rooms curr-room-name])
-        items-in-room (:items curr-room)]
-    (if (contains? items-in-room item)
-      (update-in (update-in world [:players player :inventory] conj item)
-                 [:rooms (get-in world [:players player :location]) :items]
-                 #(remove (fn [i] (= i item)) %))
-      world)))
+  )

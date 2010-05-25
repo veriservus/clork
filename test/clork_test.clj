@@ -33,6 +33,13 @@
   (is (= :study (get-in (move-player *test-world* :player1 :n) [:players :player1 :location])))
   (is (= :hall (get-in (move-player *test-world* :player1 :e) [:players :player1 :location]))))
 
+(deftest get-room-items-test
+  (is (= [:sword] (get-room-items *test-world* :hall)))
+  (is (= [] (get-room-items *test-world* :kitchen))))
+
+(deftest add-to-inventory-test
+  (is (= [:sword] (get-in (add-to-inventory :player1 :sword) [:inventory]))))
+
 (deftest pick-up-test
   (is (= :sword (get-in (pick-up *test-world* :player1 :sword) [:players :player1 :inventory 0])))
   (is (= [] (get-in (pick-up *test-world* :player1 :penguin) [:players :player1 :inventory])))
