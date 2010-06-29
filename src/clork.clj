@@ -44,9 +44,16 @@
 
 ;; All functions should take
 (defn add-to-inventory
-  [player item] (update-in player [:inventory] #(conj % [item]))
+  [world player item] (update-in world [:players player :inventory] #(conj % item))
   )
 
 
 (defn pick-up [world player item]
+  ;; Check that item is actually in the world
+  (if (some #{item} (get-room-items world (:location (find-player world player))))
+    (add-to-inventory world player item)
+    world)
   )
+
+(defn find-player [world player]
+  (player (:players world)))

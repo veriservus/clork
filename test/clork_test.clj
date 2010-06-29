@@ -38,9 +38,13 @@
   (is (= [] (get-room-items *test-world* :kitchen))))
 
 (deftest add-to-inventory-test
-  (is (= [:sword] (get-in (add-to-inventory :player1 :sword) [:inventory]))))
+  (is (= 3 (count (add-to-inventory *test-world* :player1 :sword))))
+  (is (= [:sword] (get-in (add-to-inventory *test-world* :player1 :sword) [:players :player1 :inventory]))))
 
 (deftest pick-up-test
   (is (= :sword (get-in (pick-up *test-world* :player1 :sword) [:players :player1 :inventory 0])))
   (is (= [] (get-in (pick-up *test-world* :player1 :penguin) [:players :player1 :inventory])))
   (is (= [] (get-in (pick-up *test-world* :player1 :sword) [:rooms :hall :items]))))
+
+(deftest find-player-test
+  (is (= { :location :hall :inventory []} (find-player *test-world* :player1))))
