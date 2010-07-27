@@ -41,6 +41,10 @@
   (is (= 3 (count (add-to-inventory *test-world* :player1 :sword))))
   (is (= [:sword] (get-in (add-to-inventory *test-world* :player1 :sword) [:players :player1 :inventory]))))
 
+(deftest remove-item-from-world-test
+  (is (empty? (get-in (remove-item-from-world *test-world* :hall :sword) [:rooms :hall :items])))
+  )
+
 (deftest pick-up-test
   (is (= :sword (get-in (pick-up *test-world* :player1 :sword) [:players :player1 :inventory 0])))
   (is (= [] (get-in (pick-up *test-world* :player1 :penguin) [:players :player1 :inventory])))

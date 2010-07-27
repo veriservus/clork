@@ -50,12 +50,19 @@
   [world player item] (update-in world [:players player :inventory] #(conj % item))
   )
 
+(defn remove-item-from-world [world room item]
+  (update-in world [:rooms room :items] (fn [coll] (filter #(not= item %) coll)))
+  )
 
 (defn pick-up [world player item]
   ;; Check that item is actually in the world
-  (if (some #{item} (get-room-items world (:location (find-player world player))))
-    (add-to-inventory world player item)
-    world)
-  )
+  (let [room (:location (find-player world player))]
+    (if (some #{item} (get-room-items world room))
+      (-> world
+          (add-to-inventory player item)
+          (remove-item-from-world room item))
+      world
+)))
+
 
 
