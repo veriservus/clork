@@ -21,6 +21,9 @@
         direction-strings (sort (map #(% direction-desc) exits))]
     (reduce print-str direction-strings)))
 
+(defn find-player [world player]
+  (player (:players world)))
+
 (defn look [world player]
   (let [curr-room-name (get-in world [:players player :location])
         curr-room (get-in world [:rooms curr-room-name])
@@ -55,5 +58,4 @@
     world)
   )
 
-(defn find-player [world player]
-  (player (:players world)))
+
