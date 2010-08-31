@@ -57,8 +57,7 @@
   (let [chest (struct container "Sturdy chest" [])
         adventurer (struct player :hall [:gold])
         [new-player new-chest] (transfer-item adventurer chest :gold)]
-    (is (some #{:gold} (:items new-chest))
-              )
+    (is (some #{:gold} (:items new-chest)))
     (is (not (some #{:gold} (:items new-player))))))
 
 (deftest transfer-absent-item-test
@@ -66,3 +65,17 @@
         adventurer (struct player :hall [])
         [new-player new-chest] (transfer-item adventurer chest :penguin)]
     (is (= [] (:items new-chest)))))
+
+(deftest transfer-if-item-already-exist
+  (let [chest (struct container "A Strudy chest" [:hallbird])
+        adventurer (struct player :hall [:gold])
+        [new-player new-chest] (transfer-item adventurer chest :gold)]
+    (is (= [:hallbird :gold] (:items new-chest)))))
+
+(deftest transfer-if-item-not-exist
+  (let [chest (struct container "A Strudy chest" [:hallbird])
+        adventurer (struct player :hall [:gold])
+        [new-player new-chest] (transfer-item adventurer chest :penguin)]
+    (is (= [:hallbird] (:items new-chest)))))
+
+
