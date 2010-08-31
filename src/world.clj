@@ -1,6 +1,15 @@
 (ns world
   (:use clork))
 
+(defstruct player :location :inventory)
+
+(defstruct item :description)
+
+(defstruct container :description :inventory)
+
+(defstruct room :exits :description :items)
+
+
 (def *player* :player1)
 
 (def *world* {:rooms {:hall (struct room
