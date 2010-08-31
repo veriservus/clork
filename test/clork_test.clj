@@ -39,16 +39,24 @@
 
 (deftest add-to-inventory-test
   (is (= 3 (count (add-to-inventory *test-world* :player1 :sword))))
-  (is (= [:sword] (get-in (add-to-inventory *test-world* :player1 :sword) [:players :player1 :inventory]))))
+  (is (= [:sword] (get-in (add-to-inventory *test-world* :player1 :sword) [:players :player1 :items]))))
 
 (deftest remove-item-from-world-test
   (is (empty? (get-in (remove-item-from-world *test-world* :hall :sword) [:rooms :hall :items])))
   )
 
 (deftest pick-up-test
-  (is (= :sword (get-in (pick-up *test-world* :player1 :sword) [:players :player1 :inventory 0])))
-  (is (= [] (get-in (pick-up *test-world* :player1 :penguin) [:players :player1 :inventory])))
+  (is (= :sword (get-in (pick-up *test-world* :player1 :sword) [:players :player1 :items 0])))
+  (is (= [] (get-in (pick-up *test-world* :player1 :penguin) [:players :player1 :items])))
   (is (= [] (get-in (pick-up *test-world* :player1 :sword) [:rooms :hall :items]))))
 
 (deftest find-player-test
-  (is (= { :location :hall :inventory []} (find-player *test-world* :player1))))
+  (is (= { :location :hall :items []} (find-player *test-world* :player1))))
+  
+(deftest transfer-items-test
+  (let [chest (struct container "Sturdy chest" [])
+        adventurer (struct player :hall [:gold])
+        [new-player new-chest] (transfer-item adventurer chest :gold)]
+    (is (some #{:gold} (:items new-chest))
+              )
+    (is (not (some #{:gold} (:items new-player))))))

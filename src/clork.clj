@@ -1,6 +1,6 @@
 (ns clork
   (:use world)
-  (:use clojure.contrib.seq-utils))
+  (:require [clojure.contrib.seq-utils :as sequ]))
 
 ;; represent a room
 ;; represent a set of rooms
@@ -39,8 +39,10 @@
 
 ;; All functions should take
 (defn add-to-inventory
-  [world player item] (update-in world [:players player :inventory] #(conj % item))
+  [world player item] (update-in world [:players player :items] #(conj % item))
   )
+  
+
 
 (defn remove-item-from-world [world room item]
   (update-in world [:rooms room :items] (fn [coll] (filter #(not= item %) coll)))
@@ -56,5 +58,16 @@
       world
 )))
 
+(defn transfer-item [giver receiver item]
+  (let [r-items (conj (:items receiver) item)
+        g-items (filter #(not= % item) (:items giver))
+        new-receiver (assoc receiver :items r-items)
+        new-giver (assoc giver :items g-items)
+        ]
+    [new-giver new-receiver]
+    )
+  
+        
 
+)
 
