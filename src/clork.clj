@@ -55,19 +55,13 @@
       (-> world
           (add-to-inventory player item)
           (remove-item-from-world room item))
-      world
-)))
+      world)))
 
 (defn transfer-item [giver receiver item]
-  (let [r-items (conj (:items receiver) item)
+  ;; make sure we dont transfer non-existent items
+  (let [r-items (into (:items receiver) (filter #(= % item) (:items giver)))
         g-items (filter #(not= % item) (:items giver))
         new-receiver (assoc receiver :items r-items)
-        new-giver (assoc giver :items g-items)
-        ]
-    [new-giver new-receiver]
-    )
-  
-        
-
-)
+        new-giver (assoc giver :items g-items)]
+    [new-giver new-receiver]))
 

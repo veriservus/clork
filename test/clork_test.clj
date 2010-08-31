@@ -60,3 +60,9 @@
     (is (some #{:gold} (:items new-chest))
               )
     (is (not (some #{:gold} (:items new-player))))))
+
+(deftest transfer-absent-item-test
+  (let [chest (struct container "A Strudy chest" [])
+        adventurer (struct player :hall [])
+        [new-player new-chest] (transfer-item adventurer chest :penguin)]
+    (is (= [] (:items new-chest)))))
