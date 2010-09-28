@@ -28,5 +28,9 @@
              :items {:sword (struct item "A very pointy sword.")}})
 
 
+(def the-world (ref *world*))
+
 (defn play [command & args]
-  (println (apply command *world* *player* args)))
+    (println (dosync (ref-set the-world (apply command (deref the-world) *player* args))))
+    (println the-world)
+    )
