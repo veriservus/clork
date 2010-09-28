@@ -22,9 +22,10 @@
         room-desc (:description curr-room)
         items-in-room (:items curr-room)
         item-descs (map #(get-in world [:items % :description]) items-in-room)]
-    (str (println-str room-desc) 
+    (print (str (println-str room-desc) 
          (println-str "Exits:" (desc-exits curr-room))
-         (println-str "Items:" (reduce print-str item-descs)))))
+         (println-str "Items:" (reduce print-str item-descs))))
+    world))
 
 (defn move-player [world player direction]
   (let [curr-room (get-in world [:players player :location])
