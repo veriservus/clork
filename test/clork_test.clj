@@ -24,10 +24,6 @@
 (deftest desc-exits-test
   (is (= "North West" (desc-exits (get-in *test-world* [:rooms :hall])))))
 
-(deftest look-test
-  (is (= "hall\nExits: North West\nItems: A very pointy sword.\n" (look *test-world* :player1)))
-  (is (= "kitchen\nExits: East\nItems: \n" (look *test-world* :player2))))
-
 (deftest move-test
   (is (= :kitchen (get-in (move-player *test-world* :player1 :w) [:players :player1 :location])))
   (is (= :study (get-in (move-player *test-world* :player1 :n) [:players :player1 :location])))
