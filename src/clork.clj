@@ -27,7 +27,7 @@
          (println-str "Items:" (reduce print-str item-descs))))
     world))
 
-(defn move-player [world player direction]
+(defn move [world player direction]
   (let [curr-room (get-in world [:players player :location])
         routes (get-in world [:rooms curr-room :exits])]
     (if (contains? routes direction)

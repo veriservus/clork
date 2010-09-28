@@ -25,9 +25,9 @@
   (is (= "North West" (desc-exits (get-in *test-world* [:rooms :hall])))))
 
 (deftest move-test
-  (is (= :kitchen (get-in (move-player *test-world* :player1 :w) [:players :player1 :location])))
-  (is (= :study (get-in (move-player *test-world* :player1 :n) [:players :player1 :location])))
-  (is (= :hall (get-in (move-player *test-world* :player1 :e) [:players :player1 :location]))))
+  (is (= :kitchen (get-in (move *test-world* :player1 :w) [:players :player1 :location])))
+  (is (= :study (get-in (move *test-world* :player1 :n) [:players :player1 :location])))
+  (is (= :hall (get-in (move *test-world* :player1 :e) [:players :player1 :location]))))
 
 (deftest get-room-items-test
   (is (= [:sword] (get-room-items *test-world* :hall)))
