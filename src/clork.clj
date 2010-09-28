@@ -16,15 +16,18 @@
 (defn find-player [world player]
   (player (:players world)))
 
+(defn find-mobile [world mobile]
+  (:location (mobile (:mobiles world))))
+
 (defn look [world player]
   (let [curr-room-name (get-in world [:players player :location])
         curr-room (get-in world [:rooms curr-room-name])
         room-desc (:description curr-room)
         items-in-room (:items curr-room)
         item-descs (map #(get-in world [:items % :description]) items-in-room)]
-    (print (str (println-str room-desc) 
-         (println-str "Exits:" (desc-exits curr-room))
-         (println-str "Items:" (reduce print-str item-descs))))
+    (print (str (println-str room-desc)
+                (println-str "Exits:" (desc-exits curr-room))
+                (println-str "Items:" (reduce print-str item-descs))))
     world))
 
 (defn move [world player direction]
@@ -42,7 +45,7 @@
 (defn add-to-inventory
   [world player item] (update-in world [:players player :items] #(conj % item))
   )
-  
+
 
 
 (defn remove-item-from-world [world room item]
@@ -66,3 +69,7 @@
         new-giver (assoc giver :items g-items)]
     [new-giver new-receiver]))
 
+(defn think [world]
+  (println "Thunking")
+  world
+  )

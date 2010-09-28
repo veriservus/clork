@@ -15,6 +15,7 @@
                                             "study")}
                      :players {:player1 (struct player :hall [])
                                :player2 (struct player :kitchen [])}
+                     :mobiles { :orc {:description "Angry Orc" :location :kitchen}}
                      :items {:sword (struct item "A very pointy sword.")}})
   (f)
   (def *test-world* nil))
@@ -48,7 +49,7 @@
 
 (deftest find-player-test
   (is (= { :location :hall :items []} (find-player *test-world* :player1))))
-  
+
 (deftest transfer-items-test
   (let [chest (struct container "Sturdy chest" [])
         adventurer (struct player :hall [:gold])
@@ -73,5 +74,9 @@
         adventurer (struct player :hall [:gold])
         [new-player new-chest] (transfer-item adventurer chest :penguin)]
     (is (= [:hallbird] (:items new-chest)))))
+
+
+(deftest find-mobile-test
+  (is (= :kitchen (find-mobile *test-world* :orc))))
 
 
