@@ -83,4 +83,4 @@
   (is (= 1 (count (find-thinkers *test-world*)))))
 
 (deftest should-return-the-result-of-invoking-the-function
-  (is (= 1 (count (find-thinkers *test-world*)))))
+  (is (= ["Hmmmm"] (map #(%) (find-thinkers *test-world*)))))

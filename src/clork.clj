@@ -77,10 +77,11 @@
   (println "Thunking")
   world
 )
-(defn find-thinkers [world]
-  [:hello])
 
-  (defn play [command & args]
+(defn find-thinkers [world]
+  (map (fn [[_ v]] (v :think)) (world :mobiles)))
+
+(defn play [command & args]
   (dosync (ref-set the-world (think (apply command (deref the-world) *player* args))))
   (println the-world)
   )
