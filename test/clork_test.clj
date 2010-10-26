@@ -35,7 +35,7 @@
   (is (= [] (get-room-items *test-world* :kitchen))))
 
 (deftest add-to-inventory-test
-  (is (= 3 (count (add-to-inventory *test-world* :player1 :sword))))
+  (is (= 1 (count (get-in (add-to-inventory *test-world* :player1 :sword)  [:players :player1 :items]))))
   (is (= [:sword] (get-in (add-to-inventory *test-world* :player1 :sword) [:players :player1 :items]))))
 
 (deftest remove-item-from-world-test

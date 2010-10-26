@@ -1,5 +1,4 @@
-(ns world
-  (:use clork))
+(ns world)
 
 (defstruct player :location :items)
 
@@ -31,7 +30,4 @@
 
 (def the-world (ref *world*))
 
-(defn play [command & args]
-  (dosync (ref-set the-world (think (apply command (deref the-world) *player* args))))
-  (println the-world)
-  )
+            
