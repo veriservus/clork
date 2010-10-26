@@ -46,7 +46,11 @@
   [world player item] (update-in world [:players player :items] #(conj % item))
   )
 
-
+(defn help ([world player]
+  (println "Hi, from the help system")
+  (println "Example command: (play look)")
+  world)
+  ([] (println "All game commands are like (play help)")))
 
 (defn remove-item-from-world [world room item]
   (update-in world [:rooms room :items] (fn [coll] (filter #(not= item %) coll)))
