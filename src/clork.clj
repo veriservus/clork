@@ -19,7 +19,7 @@
 (defn find-mobile [world mobile]
   (:location (mobile (:mobiles world))))
 
-(defn look [world player]
+(defn ^{:help "(play look)"}look [world player]
   (let [curr-room-name (get-in world [:players player :location])
         curr-room (get-in world [:rooms curr-room-name])
         room-desc (:description curr-room)
