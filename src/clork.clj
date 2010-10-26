@@ -72,7 +72,9 @@
 (defn think [world]
   (println "Thunking")
   world
-  )
+)
+(defn find-thinkers [world]
+  [:hello])
 
   (defn play [command & args]
   (dosync (ref-set the-world (think (apply command (deref the-world) *player* args))))

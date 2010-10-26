@@ -15,7 +15,7 @@
                                             "study")}
                      :players {:player1 (struct player :hall [])
                                :player2 (struct player :kitchen [])}
-                     :mobiles { :orc {:description "Angry Orc" :location :kitchen}}
+                     :mobiles { :orc {:description "Angry Orc" :location :kitchen :think (fn[] (println "Hmmmm"))}}
                      :items {:sword (struct item "A very pointy sword.")}})
   (f)
   (def *test-world* nil))
@@ -79,4 +79,5 @@
 (deftest find-mobile-test
   (is (= :kitchen (find-mobile *test-world* :orc))))
 
-
+  (deftest find-thinkers-test
+    (is (= 1 (count (find-thinkers *test-world*)))))
