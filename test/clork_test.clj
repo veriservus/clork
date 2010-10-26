@@ -50,6 +50,9 @@
 (deftest find-player-test
   (is (= { :location :hall :items []} (find-player *test-world* :player1))))
 
+(deftest only-possible-commands
+  (is 1 (count (possible-commands))))
+
 (deftest transfer-items-test
   (let [chest (struct container "Sturdy chest" [])
         adventurer (struct player :hall [:gold])

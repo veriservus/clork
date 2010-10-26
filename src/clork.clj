@@ -30,7 +30,8 @@
                 (println-str "Items:" (reduce print-str item-descs))))
     world))
 
-(defn move [world player direction]
+(defn ^{:help "(play move <direction>)"}
+  move [world player direction]
   (let [curr-room (get-in world [:players player :location])
         routes (get-in world [:rooms curr-room :exits])]
     (if (contains? routes direction)
@@ -46,11 +47,17 @@
   [world player item] (update-in world [:players player :items] #(conj % item))
   )
 
+(defn possible-commands [] (map (fn [[k v]] [k (get (meta v) :help)]) (filter
+                      #(not (nil? (get (meta (second %)) :help)))
+                      (ns-publics 'clork))))
+
 (defn help ([world player]
-  (println "Hi, from the help system")
-  (println "Example command: (play look)")
-  world)
-  ([] (println "All game commands are like (play help)")))
+              (println "Hi, from the help system")
+              (println "Example command: (play look)")
+              (println (filter #(not (nil? %)) (map #(:help (meta (second %)))(ns-publics 'clork))))
+              world)
+  ([] (println "All game commands are like (play help)")
+     (println (filter #(not (nil? %)) (map #(:help (meta (second %)))(ns-publics 'clork))))))
 
 (defn remove-item-from-world [world room item]
   (update-in world [:rooms room :items] (fn [coll] (filter #(not= item %) coll)))
@@ -76,7 +83,7 @@
 (defn think [world]
   (println "Thunking")
   world
-)
+  )
 
 (defn find-thinkers [world]
   (map (fn [[_ v]] (v :think)) (world :mobiles)))
