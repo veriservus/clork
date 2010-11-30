@@ -92,5 +92,5 @@
 (deftest should-return-the-result-of-invoking-the-function
   (is (= *test-world* (map #(% *test-world*) (find-thinkers *test-world*)))))
 
-(deftest test-move-help
-  (is (help look)))
+( deftest test-move-help
+  ( help look))
