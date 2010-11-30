@@ -30,13 +30,18 @@
                 (println-str "Items:" (reduce print-str item-descs))))
     world))
 
-(defn ^{:help "(play move <direction>)"}
+(defn ^{:help "(play move <direction>) where direction is :n :e :w :s"}
   move [world player direction]
   (let [curr-room (get-in world [:players player :location])
         routes (get-in world [:rooms curr-room :exits])]
-    (if (contains? routes direction)
-      (update-in world [:players player] #(merge % {:location (get routes direction)}))
-      world)))
+    (cond (contains? routes direction)
+          (do
+            (println "moved")
+            (update-in world [:players player] #(merge % {:location (get routes direction)})))
+            
+          :else
+          (do (println "can't move there")
+              world))))
 
 (defn get-room-items [world location]
   (let [items (get-in world [:rooms location :items])]
@@ -57,7 +62,10 @@
               (println (filter #(not (nil? %)) (map #(:help (meta (second %)))(ns-publics 'clork))))
               world)
   ([] (println "All game commands are like (play help)")
-     (println (filter #(not (nil? %)) (map #(:help (meta (second %)))(ns-publics 'clork))))))
+     (println "The available commands are: ")
+     (doseq [i (filter #(not (nil? %)) (map #(:help (meta (second %)))(ns-publics 'clork)))] (println i))))
+
+
 
 (defn remove-item-from-world [world room item]
   (update-in world [:rooms room :items] (fn [coll] (filter #(not= item %) coll)))
@@ -90,5 +98,6 @@
 
 (defn play [command & args]
   (dosync (ref-set the-world (think (apply command (deref the-world) *player* args))))
-  (println the-world)
+  (look (deref the-world) *player*)
+  "--------------------------"
   )

@@ -1,6 +1,10 @@
 (ns clork-test
   (:use clojure.test clork world))
 
+
+
+
+
 (defn clork-fixture [f]
   (def *test-world* {:rooms {:hall (struct room
                                            {:w :kitchen
@@ -87,3 +91,6 @@
 
 (deftest should-return-the-result-of-invoking-the-function
   (is (= ["Hmmmm"] (map #(%) (find-thinkers *test-world*)))))
+
+(deftest test-move-help
+  (is  (help look)))
