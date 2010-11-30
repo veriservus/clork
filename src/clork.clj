@@ -59,11 +59,13 @@
 (defn help ([world player]
               (println "Hi, from the help system")
               (println "Example command: (play look)")
-              (println (filter #(not (nil? %)) (map #(:help (meta (second %)))(ns-publics 'clork))))
+              (println (possible-commands))
               world)
+  ([command] (println "Use (help) or (play help)"))
   ([] (println "All game commands are like (play help)")
      (println "The available commands are: ")
-     (doseq [i (filter #(not (nil? %)) (map #(:help (meta (second %)))(ns-publics 'clork)))] (println i))))
+     (doseq [i (possible-commands)]
+       (println i))))
 
 
 

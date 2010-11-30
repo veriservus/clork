@@ -19,7 +19,7 @@
                                             "study")}
                      :players {:player1 (struct player :hall [])
                                :player2 (struct player :kitchen [])}
-                     :mobiles { :orc {:description "Angry Orc" :location :kitchen :think (fn[] "Hmmmm")}}
+                     :mobiles { :orc {:description "Angry Orc" :location :kitchen :think (fn[world] (do (println "Hmmmm") world))}}
                      :items {:sword (struct item "A very pointy sword.")}})
   (f)
   (def *test-world* nil))
@@ -90,7 +90,7 @@
   (is (= 1 (count (find-thinkers *test-world*)))))
 
 (deftest should-return-the-result-of-invoking-the-function
-  (is (= ["Hmmmm"] (map #(%) (find-thinkers *test-world*)))))
+  (is (= *test-world* (map #(% *test-world*) (find-thinkers *test-world*)))))
 
 (deftest test-move-help
-  (is  (help look)))
+  (is (help look)))
