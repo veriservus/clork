@@ -38,10 +38,10 @@
           (do
             (println "moved")
             (update-in world [:players player] #(merge % {:location (get routes direction)})))
-            
+
           :else
           (do (println "can't move there")
-              world))))
+            world))))
 
 (defn get-room-items [world location]
   (let [items (get-in world [:rooms location :items])]
@@ -49,37 +49,33 @@
 
 ;; All functions should take
 (defn add-to-inventory
-  [world player item] (update-in world [:players player :items] #(conj % item))
-  )
+  [world player item] (update-in world [:players player :items] #(conj % item)))
 
-(defn possible-commands [] (map (fn [[k v]] [k (get (meta v) :help)]) (filter
-                      #(not (nil? (get (meta (second %)) :help)))
-                      (ns-publics 'clork))))
+(defn possible-commands [] 
+  (map 
+    (fn [[k v]] [k (get (meta v) :help)]) (filter #(not (nil? (get (meta (second %)) :help))) (ns-publics 'clork))))
 
 (defn help ([world player]
-              (println "Hi, from the help system")
-              (println "Example command: (play look)")
-              (println (possible-commands))
-              world)
+            (println "Hi, from the help system")
+            (println "Example command: (play look)")
+            (println (possible-commands))
+            world)
   ([command] (println "Use (help) or (play help)"))
   ([] (println "All game commands are like (play help)")
-     (println "The available commands are: ")
-     (doseq [i (possible-commands)]
-       (println i))))
-
-
+   (println "The available commands are: ")
+   (doseq [i (possible-commands)]
+     (println i))))
 
 (defn remove-item-from-world [world room item]
-  (update-in world [:rooms room :items] (fn [coll] (filter #(not= item %) coll)))
-  )
+  (update-in world [:rooms room :items] (fn [coll] (filter #(not= item %) coll))))
 
 (defn pick-up [world player item]
   ;; Check that item is actually in the world
   (let [room (:location (find-player world player))]
     (if (some #{item} (get-room-items world room))
       (-> world
-          (add-to-inventory player item)
-          (remove-item-from-world room item))
+        (add-to-inventory player item)
+        (remove-item-from-world room item))
       world)))
 
 (defn transfer-item [giver receiver item]
@@ -92,8 +88,7 @@
 
 (defn think [world]
   (println "Thunking")
-  world
-  )
+  world)
 
 (defn find-thinkers [world]
   (map (fn [[_ v]] (v :think)) (world :mobiles)))
@@ -101,5 +96,4 @@
 (defn play [command & args]
   (dosync (ref-set the-world (think (apply command (deref the-world) *player* args))))
   (look (deref the-world) *player*)
-  "--------------------------"
-  )
+  "--------------------------")
