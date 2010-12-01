@@ -1,5 +1,5 @@
-(ns clork
-  (:use world)
+(ns clork.game
+  (:use clork.world)
   (:require [clojure.contrib.seq-utils :as sequ]))
 
 ;; represent a room
@@ -53,7 +53,10 @@
 
 (defn possible-commands [] 
   (map 
-    (fn [[k v]] [k (get (meta v) :help)]) (filter #(not (nil? (get (meta (second %)) :help))) (ns-publics 'clork))))
+    (fn [[k v]] [k (get (meta v) :help)]) (filter #(not (nil? (get (meta (second %)) :help))) (ns-publics 'clork.game))))
+
+(defn allowed-commands []
+  (map (fn [[c _]] c) possible-commands)) 
 
 (defn help ([world player]
             (println "Hi, from the help system")
@@ -94,6 +97,9 @@
   (map (fn [[_ v]] (v :think)) (world :mobiles)))
 
 (defn play [command & args]
-  (dosync (ref-set the-world (think (apply command (deref the-world) *player* args))))
+  (if (contains? allowed-commands command)
+    (dosync 
+      (ref-set the-world (think (apply command (deref the-world) *player* args))))
+    (println "command is not allowed"))
   (look (deref the-world) *player*)
   "--------------------------")

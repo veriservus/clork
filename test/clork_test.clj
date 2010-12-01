@@ -1,5 +1,7 @@
 (ns clork-test
-  (:use clojure.test clork world))
+  (:use [clork.world]
+        [clork.game]
+        [clojure.test]))
 
 (defn clork-fixture [f]
   (def *test-world* {:rooms {:hall (struct room
